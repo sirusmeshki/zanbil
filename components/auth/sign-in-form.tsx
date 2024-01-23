@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { SignInSchema } from '@/schemas'
+import { signIn } from '@/actions/sign-in'
 import CardWrapper from '@/components/auth/card-wrapper'
 import {
     Form,
@@ -17,7 +18,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { signIn } from '@/actions/sign-in'
+import AlertSuccess from '@/components/auth/alert-success'
+import AlertError from '@/components/auth/alert-error'
 
 const SignInForm = () => {
     const [error, setError] = useState('')
@@ -62,6 +64,7 @@ const SignInForm = () => {
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className='space-y-6'>
+                    {/* Email Input */}
                     <FormField
                         control={form.control}
                         name='email'
@@ -79,6 +82,8 @@ const SignInForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Password Input */}
                     <FormField
                         control={form.control}
                         name='password'
@@ -93,6 +98,11 @@ const SignInForm = () => {
                             </FormItem>
                         )}
                     />
+                    {/* Alert */}
+                    {success && <AlertSuccess description='You logged in' />}
+                    {error && <AlertError description='an error happened' />}
+
+                    {/* Submit Button */}
                     <Button
                         disabled={isPending}
                         className='w-full'

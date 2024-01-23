@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useTransition } from 'react'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -16,8 +17,15 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import AlertSuccess from '@/components/auth/alert-success'
+import AlertError from '@/components/auth/alert-error'
+import { signUp } from '@/actions/sign-up'
 
 const SignUpForm = () => {
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const [isPending, startTransition] = useTransition()
+
     const form = useForm<z.infer<typeof SignUpSchema>>({
         resolver: zodResolver(SignUpSchema),
         defaultValues: {
@@ -28,9 +36,22 @@ const SignUpForm = () => {
     })
 
     function onSubmit(values: z.infer<typeof SignUpSchema>) {
+        setError('')
+        setSuccess('')
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        startTransition(() => {
+            signUp(values).then((data) => {
+                if (data?.error) {
+                    form.reset()
+                    setError(data.error)
+                }
+
+                if (data?.success) {
+                    setSuccess(data.success)
+                }
+            })
+        })
     }
 
     return (
@@ -44,6 +65,7 @@ const SignUpForm = () => {
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className='space-y-6'>
+                    {/* Name Input */}
                     <FormField
                         control={form.control}
                         name='name'
@@ -57,6 +79,8 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Email Input */}
                     <FormField
                         control={form.control}
                         name='email'
@@ -73,6 +97,8 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Password Input */}
                     <FormField
                         control={form.control}
                         name='password'
@@ -86,6 +112,12 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Alert */}
+                    {success && <AlertSuccess description='You logged in' />}
+                    {error && <AlertError description='an error happened' />}
+
+                    {/* Submit Button */}
                     <Button className='w-full' type='submit'>
                         Submit
                     </Button>
