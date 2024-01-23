@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
+import Header from './header'
 
 const PJS = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({
                     defaultTheme='system'
                     enableSystem
                     disableTransitionOnChange>
+                    <Header />
                     {children}
                 </ThemeProvider>
             </body>
