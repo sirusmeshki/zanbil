@@ -15,3 +15,7 @@ export type CardWrapperProps = {
     backButtonTitle: string
     backButtonUrl: string
 }
+
+export type AlertProps = {
+    description: string
+}
