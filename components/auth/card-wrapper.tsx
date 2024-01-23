@@ -15,7 +15,7 @@ const CardWrapper: React.FC<CardWrapperProps> = ({
     backButtonUrl,
 }) => {
     return (
-        <section className='mx-auto flex h-full w-full max-w-md flex-col items-center justify-center space-y-6  py-8'>
+        <section className='mx-auto flex h-full w-full max-w-md flex-col items-center justify-center space-y-6 px-2 py-8'>
             <Header title={title} subTitle={subTitle} />
             <Social />
             <Seperator label='or' />
