@@ -3,6 +3,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertProps } from '@/components/auth/models'
 
 const AlertSuccess: React.FC<AlertProps> = ({ description }) => {
+    if (!description) return null
+
     return (
         <Alert variant={'success'}>
             <CheckCircle width={18} height={18} />

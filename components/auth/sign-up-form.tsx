@@ -22,8 +22,8 @@ import AlertError from '@/components/auth/alert-error'
 import { signUp } from '@/actions/sign-up'
 
 const SignUpForm = () => {
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
+    const [error, setError] = useState<string | undefined>('')
+    const [success, setSuccess] = useState<string | undefined>('')
     const [isPending, startTransition] = useTransition()
 
     const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -36,21 +36,18 @@ const SignUpForm = () => {
     })
 
     function onSubmit(values: z.infer<typeof SignUpSchema>) {
-        setError('')
-        setSuccess('')
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        setError('')
+        setSuccess('')
         startTransition(() => {
             signUp(values).then((data) => {
-                if (data?.error) {
-                    form.reset()
-                    setError(data.error)
-                }
-
-                if (data?.success) {
-                    setSuccess(data.success)
-                }
+                setError(data.error)
+                setSuccess(data.success)
             })
+        })
+        startTransition(() => {
+            signUp(values)
         })
     }
 
@@ -65,10 +62,10 @@ const SignUpForm = () => {
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className='space-y-6'>
-                    {/* Name Input */}
                     <FormField
                         control={form.control}
                         name='name'
+                        disabled={isPending}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
@@ -79,11 +76,10 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
-
-                    {/* Email Input */}
                     <FormField
                         control={form.control}
                         name='email'
+                        disabled={isPending}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
@@ -97,11 +93,10 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
-
-                    {/* Password Input */}
                     <FormField
                         control={form.control}
                         name='password'
+                        disabled={isPending}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
@@ -114,11 +109,13 @@ const SignUpForm = () => {
                     />
 
                     {/* Alert */}
-                    {success && <AlertSuccess description='You logged in' />}
-                    {error && <AlertError description='an error happened' />}
+                    <AlertSuccess description={success} />
+                    <AlertError description={error} />
 
-                    {/* Submit Button */}
-                    <Button className='w-full' type='submit'>
+                    <Button
+                        disabled={isPending}
+                        className='w-full'
+                        type='submit'>
                         Submit
                     </Button>
                 </form>

@@ -22,8 +22,8 @@ import AlertSuccess from '@/components/auth/alert-success'
 import AlertError from '@/components/auth/alert-error'
 
 const SignInForm = () => {
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
+    const [error, setError] = useState<string | undefined>('')
+    const [success, setSuccess] = useState<string | undefined>('')
     const [isPending, startTransition] = useTransition()
 
     const form = useForm<z.infer<typeof SignInSchema>>({
@@ -37,6 +37,7 @@ const SignInForm = () => {
     function onSubmit(values: z.infer<typeof SignInSchema>) {
         setError('')
         setSuccess('')
+
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         startTransition(() => {

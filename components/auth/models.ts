@@ -17,5 +17,5 @@ export type CardWrapperProps = {
 }
 
 export type AlertProps = {
-    description: string
+    description: string | undefined
 }
