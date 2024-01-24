@@ -1,13 +1,7 @@
 import Link from 'next/link'
 
-import { ExtendedUser } from '@/next-auth'
-
 import UserButton from '@/components/profile/user-button'
 import { Button } from '@/components/ui/button'
-
-interface HeaderUserProps {
-    user?: ExtendedUser
-}
 
 const HeaderUser = ({ user }: { user: any }) => {
     return (
