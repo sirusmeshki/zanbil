@@ -1,19 +1,14 @@
-import Link from 'next/link'
+import { auth } from '@/auth'
 
 import { ModeToggle } from '@/components/mode-toggle'
-import { Button } from '@/components/ui/button'
+import HeaderUser from '@/components/profile/header-user'
 
-const Header = () => {
+const Header = async () => {
+    const session = await auth()
+
     return (
         <header className='flex w-full items-center justify-between border-b p-4'>
-            <div className='space-x-2'>
-                <Link href={'/auth/sign-in'}>
-                    <Button variant={'default'}>Sign In</Button>
-                </Link>
-                <Link href={'/auth/sign-up'}>
-                    <Button variant={'ghost'}>Sign Up</Button>
-                </Link>
-            </div>
+            <HeaderUser user={session?.user} />
             <ModeToggle />
         </header>
     )
