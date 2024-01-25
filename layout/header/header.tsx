@@ -1,9 +1,9 @@
+import Link from 'next/link'
 import { auth } from '@/auth'
 
 import { ModeToggle } from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
 import HeaderUser from '@/layout/header/components/user'
-import Link from 'next/link'
 
 const Header = async () => {
     const session = await auth()

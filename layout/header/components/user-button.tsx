@@ -7,7 +7,6 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -34,8 +33,8 @@ const UserButton = ({ name, avatar }: { name: string; avatar: string }) => {
                             await signOut()
                         }}>
                         <Button
-                            variant={'destructive'}
                             className='w-full'
+                            variant={'destructive'}
                             type='submit'>
                             Sign Out
                         </Button>

@@ -6,7 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { SignUpSchema } from '@/schemas'
-import CardWrapper from '@/components/auth/card-wrapper'
+import { signUp } from '@/actions/sign-up'
+import CardWrapper from '@/components/auth/card/card-wrapper'
 import {
     Form,
     FormControl,
@@ -17,9 +18,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import AlertSuccess from '@/components/auth/alert-success'
-import AlertError from '@/components/auth/alert-error'
-import { signUp } from '@/actions/sign-up'
+import AlertSuccess from '@/components/auth/alert/alert-success'
+import AlertError from '@/components/auth/alert/alert-error'
 
 const SignUpForm = () => {
     const [error, setError] = useState<string | undefined>('')
@@ -60,8 +60,9 @@ const SignUpForm = () => {
             backButtonUrl='/auth/sign-in'>
             <Form {...form}>
                 <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className='space-y-6'>
+                    className='space-y-6'
+                    onSubmit={form.handleSubmit(onSubmit)}>
+                    {/* Name Input */}
                     <FormField
                         control={form.control}
                         name='name'
@@ -76,6 +77,8 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Email Input */}
                     <FormField
                         control={form.control}
                         name='email'
@@ -93,6 +96,8 @@ const SignUpForm = () => {
                             </FormItem>
                         )}
                     />
+
+                    {/* Password Input*/}
                     <FormField
                         control={form.control}
                         name='password'
@@ -113,8 +118,8 @@ const SignUpForm = () => {
                     <AlertError description={error} />
 
                     <Button
-                        disabled={isPending}
                         className='w-full'
+                        disabled={isPending}
                         type='submit'>
                         Submit
                     </Button>

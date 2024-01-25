@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 
 import { SignInSchema } from '@/schemas'
 import { signIn } from '@/actions/sign-in'
-import CardWrapper from '@/components/auth/card-wrapper'
+import CardWrapper from '@/components/auth/card/card-wrapper'
 import {
     Form,
     FormControl,
@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import AlertSuccess from '@/components/auth/alert-success'
-import AlertError from '@/components/auth/alert-error'
+import AlertSuccess from '@/components/auth/alert/alert-success'
+import AlertError from '@/components/auth/alert/alert-error'
 
 const SignInForm = () => {
     const [error, setError] = useState<string | undefined>('')
@@ -35,11 +35,10 @@ const SignInForm = () => {
     })
 
     function onSubmit(values: z.infer<typeof SignInSchema>) {
-        setError('')
-        setSuccess('')
-
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        setError('')
+        setSuccess('')
         startTransition(() => {
             signIn(values).then((data) => {
                 if (data?.error) {
@@ -63,8 +62,8 @@ const SignInForm = () => {
             backButtonUrl='/auth/sign-up'>
             <Form {...form}>
                 <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className='space-y-6'>
+                    className='space-y-6'
+                    onSubmit={form.handleSubmit(onSubmit)}>
                     {/* Email Input */}
                     <FormField
                         control={form.control}
@@ -100,13 +99,13 @@ const SignInForm = () => {
                         )}
                     />
                     {/* Alert */}
-                    {success && <AlertSuccess description='You logged in' />}
-                    {error && <AlertError description='an error happened' />}
+                    <AlertSuccess description={success} />
+                    <AlertError description={error} />
 
                     {/* Submit Button */}
                     <Button
-                        disabled={isPending}
                         className='w-full'
+                        disabled={isPending}
                         type='submit'>
                         Log In
                     </Button>

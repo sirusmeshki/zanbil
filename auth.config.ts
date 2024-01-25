@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs'
 import type { NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
-import { SignInSchema } from './schemas'
-import { getUserByEmail } from './data/user'
+import { SignInSchema } from '@/schemas'
+import { getUserByEmail } from '@/data/user'
 
 export default {
     providers: [
