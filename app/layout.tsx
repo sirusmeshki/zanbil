@@ -3,7 +3,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
-import Header from './header'
+import Header from '@/layout/header/header'
 
 const PJS = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
