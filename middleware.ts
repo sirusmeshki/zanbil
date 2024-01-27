@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server'
 import NextAuth from 'next-auth'
 import authConfig from '@/auth.config'
 
@@ -14,8 +15,13 @@ export default auth((req) => {
     const { nextUrl } = req
     const isLoggedIn = !!req.auth
 
+    // /api/providers
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+
+    // /auth/sign-in - /auth/sign-up
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+
+    // any route that contains dashboard
     const isProtectedRoute = nextUrl.pathname.includes(protectedRoute)
 
     if (isApiAuthRoute) {
@@ -24,13 +30,16 @@ export default auth((req) => {
 
     if (isAuthRoute && !isProtectedRoute) {
         if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+            return NextResponse.redirect(
+                new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)
+            )
         }
         return null
     }
 
-    if (!isLoggedIn && isProtectedRoute) {
-        return Response.redirect(new URL('/auth/sign-in', nextUrl))
+    // When we try to access protected route but not loggedin
+    if (isProtectedRoute && !isLoggedIn) {
+        return NextResponse.redirect(new URL('/auth/sign-in', nextUrl))
     }
 
     return null
@@ -42,4 +51,3 @@ export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
 // Clerk Regular Expression Matcher https://clerk.com/docs/references/nextjs/auth-middleware
-// This is going to invoke auth function on this routes
