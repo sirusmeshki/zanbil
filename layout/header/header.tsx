@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 
 import { ModeToggle } from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
-import HeaderUser from '@/layout/header/components/user'
+import HeaderUser from '@/layout/header/_components/user'
 
 const Header = async () => {
     const session = await auth()
